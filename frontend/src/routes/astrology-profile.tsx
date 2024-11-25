@@ -1,22 +1,14 @@
 import { intlFormat } from 'date-fns'
-import { useState } from 'react'
 import { Params, useLoaderData } from 'react-router-dom'
 
-import AntardashasTable from '@/components/antardashas-table'
+import AscendantTable from '@/components/ascendant-table'
 import AstrologyChart from '@/components/astrology-chart'
-import MahadashasTable from '@/components/mahadashas-table'
-import ParyantardashasTable from '@/components/paryantardashas-table'
+import ClassificationsTable from '@/components/classifications-table'
+import HousesTable from '@/components/houses-table'
 import PlanetsTable from '@/components/planets-table'
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
+import VimshottariTable from '@/components/vimshottari-table'
 import { BASE_URL } from '@/lib/constants'
 import { ApiStatus, FetchAstrologyProfile } from '@/lib/types'
 
@@ -30,9 +22,6 @@ export async function loader({ params }: { params: Params<'profileId'> }) {
 
 export default function AstrologyProfile() {
   const data = useLoaderData() as FetchAstrologyProfile
-  const [dashaTable, setDashaTable] = useState('mahadashas')
-  const [dashaLord, setDashaLord] = useState('')
-  const [bhuktiLord, setBhuktiLord] = useState('')
 
   if (data.status == ApiStatus.OK) {
     const { profile, astrodata } = data
@@ -55,14 +44,6 @@ export default function AstrologyProfile() {
       },
       { locale: 'vi-VN' },
     )
-    const onClickMahadashas = (dashaLord: string) => {
-      setDashaTable('antardashas')
-      setDashaLord(dashaLord)
-    }
-    const onClickAntardashas = (dashaLord: string) => {
-      setDashaTable('paryantardashas')
-      setBhuktiLord(dashaLord)
-    }
 
     return (
       <div className="flex w-full flex-col gap-4">
@@ -81,80 +62,25 @@ export default function AstrologyProfile() {
                 <p className="text-sm text-muted-foreground">{`Longtitude: ${profile.longitude}, Lattitude: ${profile.lattitude}`}</p>
               </CardContent>
             </Card>
-            {dashaTable == 'mahadashas' ? (
-              <MahadashasTable astrodata={astrodata} onClickMahadashas={onClickMahadashas} />
-            ) : dashaTable == 'antardashas' ? (
-              <>
-                <div>
-                  <Button onClick={() => setDashaTable('mahadashas')}>Go back</Button>
-                </div>
-                <AntardashasTable
-                  astrodata={astrodata}
-                  dashaLord={dashaLord}
-                  onClickAntardashas={onClickAntardashas}
-                />
-              </>
-            ) : (
-              <>
-                <div>
-                  <Button onClick={() => setDashaTable('antardashas')}>Go back</Button>
-                </div>
-                <ParyantardashasTable
-                  astrodata={astrodata}
-                  dashaLord={dashaLord}
-                  bhuktiLord={bhuktiLord}
-                />
-              </>
-            )}
+            <VimshottariTable astrodata={astrodata} />
           </div>
         </div>
-        <div className="flex">
-          <div className="w-full rounded-md border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Benefics</TableHead>
-                  <TableHead>Malefics</TableHead>
-                  <TableHead>Neutral</TableHead>
-                  <TableHead>Kendra</TableHead>
-                  <TableHead>Trikona</TableHead>
-                  <TableHead>Trik</TableHead>
-                  <TableHead>Upachaya</TableHead>
-                  <TableHead>Dharma</TableHead>
-                  <TableHead>Artha</TableHead>
-                  <TableHead>Kama</TableHead>
-                  <TableHead>Moksha</TableHead>
-                  <TableHead>Natural Benefics</TableHead>
-                  <TableHead>Natural Malefics</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell>{astrodata.D1.classifications.benefics.join(', ')}</TableCell>
-                  <TableCell>{astrodata.D1.classifications.malefics.join(', ')}</TableCell>
-                  <TableCell>{astrodata.D1.classifications.neutral.join(', ')}</TableCell>
-                  <TableCell>{astrodata.D1.classifications.kendra.join(', ')}</TableCell>
-                  <TableCell>{astrodata.D1.classifications.trikona.join(', ')}</TableCell>
-                  <TableCell>{astrodata.D1.classifications.trik.join(', ')}</TableCell>
-                  <TableCell>{astrodata.D1.classifications.upachaya.join(', ')}</TableCell>
-                  <TableCell>{astrodata.D1.classifications.dharma.join(', ')}</TableCell>
-                  <TableCell>{astrodata.D1.classifications.artha.join(', ')}</TableCell>
-                  <TableCell>{astrodata.D1.classifications.kama.join(', ')}</TableCell>
-                  <TableCell>{astrodata.D1.classifications.moksha.join(', ')}</TableCell>
-                  <TableCell>
-                    {astrodata.D1.classifications['natural-benefics'].join(', ')}
-                  </TableCell>
-                  <TableCell>
-                    {astrodata.D1.classifications['natural-malefics'].join(', ')}
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </div>
-        </div>
-        <div className="flex">
+        <ScrollArea className="w-full rounded-md border">
+          <ClassificationsTable chart={astrodata.D1} />
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
+        <ScrollArea className="flex rounded-md border">
+          <AscendantTable chartData={astrodata.D1} />
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
+        <ScrollArea className="flex rounded-md border">
+          <HousesTable chartData={astrodata.D1} />
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
+        <ScrollArea className="flex rounded-md border">
           <PlanetsTable chartData={astrodata.D1} />
-        </div>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
       </div>
     )
   }
