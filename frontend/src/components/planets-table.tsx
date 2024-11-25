@@ -36,7 +36,7 @@ export default function PlanetsTable({ chartData }: IProps) {
           <TableHead>Planet-Nature</TableHead>
           <TableHead>Gender</TableHead>
           <TableHead>Category</TableHead>
-          <TableHead>Lord</TableHead>
+          <TableHead>Lord of</TableHead>
           <TableHead>House-Num</TableHead>
           <TableHead>Friends</TableHead>
           <TableHead>Enemies</TableHead>

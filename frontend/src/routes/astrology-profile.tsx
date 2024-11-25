@@ -47,21 +47,32 @@ export default function AstrologyProfile() {
 
     return (
       <div className="flex w-full flex-col gap-4">
-        <div className="flex gap-4">
-          <div className="flex flex-col gap-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle>{profile.name}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground">{birthday}</p>
+            <p className="text-sm text-muted-foreground">{profile.place}</p>
+            <p className="text-sm text-muted-foreground">{`Longtitude: ${profile.longitude}, Lattitude: ${profile.lattitude}`}</p>
+          </CardContent>
+        </Card>
+        <div className="flex justify-center gap-4">
+          <div className="flex flex-col">
+            <h2 className="text-center">{astrodata.D1.name}</h2>
             <AstrologyChart chartData={astrodata.D1} />
           </div>
-          <div className="flex flex-1 flex-col gap-4">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle>{profile.name}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">{birthday}</p>
-                <p className="text-sm text-muted-foreground">{profile.place}</p>
-                <p className="text-sm text-muted-foreground">{`Longtitude: ${profile.longitude}, Lattitude: ${profile.lattitude}`}</p>
-              </CardContent>
-            </Card>
+          <div className="flex flex-col">
+            <h2 className="text-center">{astrodata.D9.name}</h2>
+            <AstrologyChart chartData={astrodata.D9} />
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <ScrollArea className="flex rounded-md border">
+            <HousesTable chartData={astrodata.D1} />
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+          <div>
             <VimshottariTable astrodata={astrodata} />
           </div>
         </div>
@@ -71,10 +82,6 @@ export default function AstrologyProfile() {
         </ScrollArea>
         <ScrollArea className="flex rounded-md border">
           <AscendantTable chartData={astrodata.D1} />
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
-        <ScrollArea className="flex rounded-md border">
-          <HousesTable chartData={astrodata.D1} />
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
         <ScrollArea className="flex rounded-md border">

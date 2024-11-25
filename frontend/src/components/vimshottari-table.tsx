@@ -31,7 +31,7 @@ export default function VimshottariTable({ astrodata }: IProps) {
         <MahadashasTable astrodata={astrodata} onClickMahadashas={onClickMahadashas} />
       ) : dashaTable == 'antardashas' ? (
         <>
-          <div>
+          <div className="mb-4">
             <Button onClick={() => setDashaTable('mahadashas')}>Go back</Button>
           </div>
           <AntardashasTable
@@ -42,7 +42,7 @@ export default function VimshottariTable({ astrodata }: IProps) {
         </>
       ) : (
         <>
-          <div>
+          <div className="mb-4">
             <Button onClick={() => setDashaTable('antardashas')}>Go back</Button>
           </div>
           <ParyantardashasTable
