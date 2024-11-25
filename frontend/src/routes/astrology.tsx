@@ -98,9 +98,9 @@ export default function Astrology() {
                   <CardTitle>{p.name}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground">{birthday}</p>
-                  <p className="text-muted-foreground">{p.place}</p>
-                  <p className="text-muted-foreground">{`Longtitude: ${p.longitude}, Lattitude: ${p.lattitude}`}</p>
+                  <p className="text-sm text-muted-foreground">{birthday}</p>
+                  <p className="text-sm text-muted-foreground">{p.place}</p>
+                  <p className="text-sm text-muted-foreground">{`Longtitude: ${p.longitude}, Lattitude: ${p.lattitude}`}</p>
                 </CardContent>
                 <CardFooter className="grid gap-2 md:grid-cols-3 md:gap-4">
                   <Button variant="destructive" onClick={() => deleteProfile(p.id)}>

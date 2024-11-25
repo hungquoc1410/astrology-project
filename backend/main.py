@@ -27,7 +27,7 @@ def create_profile():
     timezone = request.json.get("timezone")
     hour = request.json.get("hour")
     min = request.json.get("min")
-    sec = request.json.get("sec")
+    sec = request.json.get("sec", "0")
 
     new_profile = Profile(
         name=name,
@@ -63,7 +63,7 @@ def create_profile():
 
 @app.route("/update_profile/<int:profile_id>", methods=["PATCH"])
 def update_profile(profile_id):
-    profile = Profile.query.get(profile_id)
+    profile = db.session.get(Profile, profile_id)
 
     if not profile:
         return jsonify({"message": "Profile not found"}), 404

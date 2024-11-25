@@ -48,7 +48,7 @@ export const profileFormSchema = z
         path: ['year'],
       })
     }
-    if (!Number(val.hour) || Number(val.hour) > 23 || Number(val.hour) < 0) {
+    if (Number(val.hour) > 23 || Number(val.hour) < 0) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: 'Invalid Hour',
