@@ -84,10 +84,7 @@ export default function AstrologyProfile() {
           <AscendantTable chartData={astrodata.D1} />
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
-        <ScrollArea className="flex rounded-md border">
-          <PlanetsTable chartData={astrodata.D1} />
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
+        <PlanetsTable chartData={astrodata.D1} />
       </div>
     )
   }
