@@ -56,7 +56,7 @@ export function DataTable<TData, TValue>({
           <DropdownMenuTrigger asChild>
             <Button variant="outline">{toggleTitle}</Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align="start">
             <ScrollArea className="h-72">
               {table
                 .getAllColumns()

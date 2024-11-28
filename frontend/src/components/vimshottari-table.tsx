@@ -1,11 +1,9 @@
 import { useState } from 'react'
 
+import AntardashasTable from '@/components/antardashas-table'
+import MahadashasTable from '@/components/mahadashas-table'
+import ParyantardashasTable from '@/components/paryantardashas-table'
 import { TAstrologyRawData } from '@/lib/types'
-
-import AntardashasTable from './antardashas-table'
-import MahadashasTable from './mahadashas-table'
-import ParyantardashasTable from './paryantardashas-table'
-import { Button } from './ui/button'
 
 interface IProps {
   astrodata: TAstrologyRawData
@@ -30,27 +28,19 @@ export default function VimshottariTable({ astrodata }: IProps) {
       {dashaTable == 'mahadashas' ? (
         <MahadashasTable astrodata={astrodata} onClickMahadashas={onClickMahadashas} />
       ) : dashaTable == 'antardashas' ? (
-        <>
-          <div className="mb-4">
-            <Button onClick={() => setDashaTable('mahadashas')}>Go back</Button>
-          </div>
-          <AntardashasTable
-            astrodata={astrodata}
-            dashaLord={dashaLord}
-            onClickAntardashas={onClickAntardashas}
-          />
-        </>
+        <AntardashasTable
+          astrodata={astrodata}
+          dashaLord={dashaLord}
+          onClickAntardashas={onClickAntardashas}
+          setDashaTable={setDashaTable}
+        />
       ) : (
-        <>
-          <div className="mb-4">
-            <Button onClick={() => setDashaTable('antardashas')}>Go back</Button>
-          </div>
-          <ParyantardashasTable
-            astrodata={astrodata}
-            dashaLord={dashaLord}
-            bhuktiLord={bhuktiLord}
-          />
-        </>
+        <ParyantardashasTable
+          astrodata={astrodata}
+          dashaLord={dashaLord}
+          bhuktiLord={bhuktiLord}
+          setDashaTable={setDashaTable}
+        />
       )}
     </>
   )

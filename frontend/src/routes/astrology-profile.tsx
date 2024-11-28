@@ -1,13 +1,12 @@
 import { intlFormat } from 'date-fns'
 import { Params, useLoaderData } from 'react-router-dom'
 
-import AscendantTable from '@/components/ascendant-table'
+import AscendantCard from '@/components/ascendant-card'
 import AstrologyChart from '@/components/astrology-chart'
-import ClassificationsTable from '@/components/classifications-table'
+import ClassificationsInfoCards from '@/components/classifications-info-cards'
 import HousesTable from '@/components/houses-table'
 import PlanetsTable from '@/components/planets-table'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import VimshottariTable from '@/components/vimshottari-table'
 import { BASE_URL } from '@/lib/constants'
 import { ApiStatus, FetchAstrologyProfile } from '@/lib/types'
@@ -47,43 +46,33 @@ export default function AstrologyProfile() {
 
     return (
       <div className="flex w-full flex-col gap-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle>{profile.name}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">{birthday}</p>
-            <p className="text-sm text-muted-foreground">{profile.place}</p>
-            <p className="text-sm text-muted-foreground">{`Longtitude: ${profile.longitude}, Lattitude: ${profile.lattitude}`}</p>
-          </CardContent>
-        </Card>
-        <div className="flex justify-center gap-4">
-          <div className="flex flex-col">
-            <h2 className="text-center">{astrodata.D1.name}</h2>
+        <div className="flex gap-4">
+          <div>
             <AstrologyChart chartData={astrodata.D1} />
           </div>
-          <div className="flex flex-col">
-            <h2 className="text-center">{astrodata.D9.name}</h2>
-            <AstrologyChart chartData={astrodata.D9} />
+          <div className="flex w-full flex-col gap-2">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle>{profile.name}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">{birthday}</p>
+                <p className="text-sm text-muted-foreground">{profile.place}</p>
+                <p className="text-sm text-muted-foreground">{`Longtitude: ${profile.longitude}, Lattitude: ${profile.lattitude}`}</p>
+              </CardContent>
+            </Card>
+            <div className="flex gap-2">
+              <AscendantCard chartData={astrodata.D1} />
+              <ClassificationsInfoCards chart={astrodata.D1} />
+            </div>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <ScrollArea className="flex rounded-md border">
-            <HousesTable chartData={astrodata.D1} />
-            <ScrollBar orientation="horizontal" />
-          </ScrollArea>
+          <HousesTable chartData={astrodata.D1} />
           <div>
             <VimshottariTable astrodata={astrodata} />
           </div>
         </div>
-        <ScrollArea className="w-full rounded-md border">
-          <ClassificationsTable chart={astrodata.D1} />
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
-        <ScrollArea className="flex rounded-md border">
-          <AscendantTable chartData={astrodata.D1} />
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
         <PlanetsTable chartData={astrodata.D1} />
       </div>
     )

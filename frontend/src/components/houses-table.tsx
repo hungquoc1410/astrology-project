@@ -1,47 +1,67 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import { TDivisionalChartData } from '@/lib/types'
+import { ColumnDef } from '@tanstack/react-table'
+
+import { DataTable } from '@/components/ui/data-table'
+import { TDivisionalChartData, THouseData } from '@/lib/types'
 
 interface IProps {
   chartData: TDivisionalChartData
 }
 
 export default function HousesTable({ chartData }: IProps) {
-  console.log(chartData.houses)
+  const columns: ColumnDef<THouseData>[] = [
+    {
+      accessorKey: 'house-num',
+      header: 'House-Num',
+      enableHiding: false,
+    },
+    {
+      accessorKey: 'planets',
+      header: 'Planets',
+      cell: ({ row }) => {
+        return row.original.planets.join(', ')
+      },
+    },
+    {
+      accessorKey: 'sign-num',
+      header: 'Sign-Num',
+    },
+    {
+      accessorKey: 'sign',
+      header: 'Sign',
+    },
+    {
+      accessorKey: 'sign-lord',
+      header: 'Sign-Lord',
+    },
+    {
+      accessorKey: 'rashi',
+      header: 'Rashi',
+    },
+    {
+      accessorKey: 'aspect-planets',
+      header: 'Aspect-Planets',
+      cell: ({ row }) => {
+        return row.original['aspect-planets'].join(', ')
+      },
+    },
+  ]
+
+  const initialColumnVisibility = {
+    'house-num': true,
+    planets: true,
+    'sign-num': true,
+    sign: true,
+    'sign-lord': true,
+    rashi: false,
+    'aspect-planets': true,
+  }
+
   return (
-    <Table className="min-w-max">
-      <TableHeader>
-        <TableRow>
-          <TableHead>House-Num</TableHead>
-          <TableHead>Planets</TableHead>
-          <TableHead>Sign-Num</TableHead>
-          <TableHead>Sign</TableHead>
-          <TableHead>Sign-Lord</TableHead>
-          <TableHead>Rashi</TableHead>
-          <TableHead>Aspect-Planets</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {chartData.houses.map((house) => {
-          return (
-            <TableRow key={house['house-num']}>
-              <TableCell>{house['house-num']}</TableCell>
-              <TableCell>{house.planets.join(', ')}</TableCell>
-              <TableCell>{house['sign-num']}</TableCell>
-              <TableCell>{house.sign}</TableCell>
-              <TableCell>{house['sign-lord']}</TableCell>
-              <TableCell>{house.rashi}</TableCell>
-              <TableCell>{house['aspect-planets'].join(', ')}</TableCell>
-            </TableRow>
-          )
-        })}
-      </TableBody>
-    </Table>
+    <DataTable
+      columns={columns}
+      data={chartData.houses}
+      initialColumnVisibility={initialColumnVisibility}
+      toggleTitle="Houses Table"
+    />
   )
 }
